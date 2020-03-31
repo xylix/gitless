@@ -21,12 +21,12 @@ from clint.textui import colored
 
 from gitless import core
 
-from . import (
+from gitless.cli import (
     gl_track, gl_untrack, gl_status, gl_diff, gl_commit, gl_branch, gl_tag,
     gl_checkout, gl_merge, gl_resolve, gl_fuse, gl_remote, gl_publish,
     gl_switch, gl_init, gl_history)
-from . import pprint
-from . import helpers
+from gitless.cli import pprint
+from gitless.cli import helpers
 
 
 SUCCESS = 0
@@ -67,6 +67,14 @@ def print_help(parser):
       # get all subparsers and print help
       for choice in subparsers_action._choices_actions:
           print('    {:<19} {}'.format(choice.dest, choice.help))
+
+def build_parser_hardcoded_cmdlist():
+  sub_cmds = [
+      gl_track, gl_untrack, gl_status, gl_diff, gl_commit, gl_branch, gl_tag,
+      gl_checkout, gl_merge, gl_resolve, gl_fuse, gl_remote, gl_publish,
+      gl_switch, gl_init, gl_history]
+  repo = core.Repository()
+  return build_parser(sub_cmds,repo)
 
 def build_parser(subcommands, repo):
   parser = argparse.ArgumentParser(
